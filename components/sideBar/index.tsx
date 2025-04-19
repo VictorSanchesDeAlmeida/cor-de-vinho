@@ -1,28 +1,48 @@
-import { Box, Stack, Link, Flex, Icon, Text, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Stack,
+  Link as ChakraLink,
+  Flex,
+  Text,
+  Image,
+  For,
+  Separator,
+} from "@chakra-ui/react";
+import Link from "next/link";
 import { MdTour } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
+import { LogoutButton } from "../logout-button";
 
 const SideBar = () => {
   return (
     <Box h="full" width="350px" rounded="2xl" shadow="lg" bg="#851732" p={4}>
       <Stack>
-        <Link href="/" mb={8}>
-          <Box  w="full">
-            <Image w={150} mx="auto" src="/logo.png"/>
-          </Box>
-        </Link>
-        {navLinksAdm.map((item, i) => (
-          <Link href={item.link} key={i} _hover={{textDecoration: "none"}}>
-            <Box _hover={{backgroundColor: "#9f4057"}} w="full" p={2} rounded="lg">
-              <Flex alignItems="center" gap={4}>
-                <Icon>
-                  <item.icon />
-                </Icon>
-                <Text fontSize="xl">{item.label}</Text>
-              </Flex>
-            </Box>
+        <ChakraLink asChild>
+          <Link href="/">
+            <Image w={150} mx="auto" src="/logo.png" />
           </Link>
-        ))}
+        </ChakraLink>
+        <For each={navLinksAdm}>
+          {({ link, icon: Icon, label }) => (
+            <ChakraLink asChild _hover={{ textDecoration: "none" }}>
+              <Link href={link} key={link}>
+                <Box
+                  _hover={{ backgroundColor: "#9f4057" }}
+                  w="full"
+                  p={2}
+                  rounded="lg"
+                >
+                  <Flex alignItems="center" gap={4}>
+                    <Icon />
+                    <Text fontSize="xl">{label}</Text>
+                  </Flex>
+                </Box>
+              </Link>
+            </ChakraLink>
+          )}
+        </For>
+        <Separator />
+        <LogoutButton />
       </Stack>
     </Box>
   );
