@@ -4,11 +4,7 @@ interface UserResponse {
   first_name: string;
 }
 
-export async function FindUserById({
-  id,
-}: {
-  id: string;
-}): Promise<UserResponse | null> {
+export async function FindUserById({id}: {id: string}): Promise<UserResponse | null> {
   const { data, error } = await supabase
     .from("users")
     .select()
