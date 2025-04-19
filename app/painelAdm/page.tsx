@@ -1,36 +1,20 @@
-"use client";
+import { Metadata } from "next";
+import { getUserProfile } from "./actions";
+import { AdminPanel } from "./admin-panel";
 
-import { FindUserById } from "@/api/user/findUser";
-import CardWellcome from "@/components/cardWellcome/cardWellcome";
-import { supabase } from "@/lib/supabase/browser";
-import { Box, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+export const metadata: Metadata = {
+  title: "Painel de Controle",
+  description: "Painel de Controle",
+  openGraph: {
+    title: "Painel de Controle",
+    description: "Painel de Controle",
+    url: "https://painel.com",
+    siteName: "Painel de Controle",
+    images: [{ url: "https://painel.com/og-image.png" }],
+  },
+};
 
-export default function PainelAdmPage() {
-  "use cache";
-
-  const [firstName, setFirstName] = useState("");
-
-  useEffect(() => {
-    async function getUserName() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        const userData = await FindUserById({ id: user.id });
-        setFirstName(userData?.first_name || "");
-      }
-    }
-
-    getUserName();
-  }, []);
-
-  return (
-    <Box w="full" h="full">
-      <Stack>
-        <CardWellcome userName={firstName} />
-      </Stack>
-    </Box>
-  );
+export default async function PainelAdmPage() {
+  const { data } = await getUserProfile();
+  return <AdminPanel user={data!} />;
 }

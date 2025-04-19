@@ -1,0 +1,10 @@
+{
+  "console-ninja.featureSet": "Pro",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  "console-ninja.allowConsoleLogToTriggerPredictions": true,
+  "console-ninja.captureFunctions": true
+}
