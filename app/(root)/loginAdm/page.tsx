@@ -9,6 +9,7 @@ import {
   Input,
   Spinner,
   Stack,
+  Text
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -31,7 +32,10 @@ export default function LoginPage() {
 
     const { error } = await supabase.auth.signInWithPassword(e);
 
-    if (error) return setError(error.message);
+    if (error) {
+      setLoading(false);
+      return setError(error.message);
+    }
 
     redirect("/painelAdm");
   };
@@ -79,9 +83,9 @@ export default function LoginPage() {
                 />
               </Field.Root>
             </Fieldset.Content>
-
+            {error ? <ErrorMessage text={error}/> : ""}
             <Button type="submit" alignSelf="flex-start">
-              {loading ? <Spinner size="lg" /> :"logar"}
+              {loading ? <Spinner size="lg" /> : "logar"}
             </Button>
           </Fieldset.Root>
         </form>
@@ -89,3 +93,11 @@ export default function LoginPage() {
     </Container>
   );
 }
+
+const ErrorMessage = ({ text }: { text: string }) => {
+  return (
+    <>
+      <Text>{text}</Text>
+    </>
+  );
+};
