@@ -1,4 +1,4 @@
-import { Box, Stack, Link, Flex, Icon, Text, HStack } from "@chakra-ui/react";
+import { Box, Stack, Link, Flex, Icon, Text, Image } from "@chakra-ui/react";
 import { MdTour } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
 
@@ -6,6 +6,11 @@ const SideBar = () => {
   return (
     <Box h="full" width="350px" rounded="2xl" shadow="lg" bg="#851732" p={4}>
       <Stack>
+        <Link href="/" mb={8}>
+          <Box  w="full">
+            <Image w={150} mx="auto" src="/logo.png"/>
+          </Box>
+        </Link>
         {navLinksAdm.map((item, i) => (
           <Link href={item.link} key={i} _hover={{textDecoration: "none"}}>
             <Box _hover={{backgroundColor: "#9f4057"}} w="full" p={2} rounded="lg">
