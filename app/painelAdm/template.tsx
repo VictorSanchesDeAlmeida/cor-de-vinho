@@ -1,4 +1,4 @@
-import { AdminPanelLayout } from "./admin-panel-layout";
+import { AdminPanelLayout } from "./adminPanelLayout";
 
 export default function PainelAdmLayout({
   children,

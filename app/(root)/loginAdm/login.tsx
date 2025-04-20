@@ -70,7 +70,6 @@ export function Login() {
                   type="email"
                   bg="white"
                   color="black"
-                  defaultValue={process.env.NEXT_PUBLIC_DEV_EMAIL}
                 />
               </Field.Root>
 
@@ -81,13 +80,12 @@ export function Login() {
                   type="password"
                   bg="white"
                   color="black"
-                  defaultValue={process.env.NEXT_PUBLIC_DEV_PASSWORD}
                 />
               </Field.Root>
             </Fieldset.Content>
             {error ? <ErrorMessage text={error} /> : ""}
             <Button type="submit" alignSelf="flex-start">
-              {loading ? <Spinner size="lg" /> : "logar"}
+              {loading ? <Spinner size="md" /> : "logar"}
             </Button>
           </Fieldset.Root>
         </form>

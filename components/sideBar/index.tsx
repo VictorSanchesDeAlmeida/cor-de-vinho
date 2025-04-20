@@ -6,25 +6,22 @@ import {
   Text,
   Image,
   For,
-  Separator,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { MdTour } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
 import { LogoutButton } from "../logout-button";
+import { FaBusAlt } from "react-icons/fa";
 
 const SideBar = () => {
   return (
     <Box h="full" width="350px" rounded="2xl" shadow="lg" bg="#851732" p={4}>
-      <Stack>
-        <ChakraLink asChild>
-          <Link href="/">
-            <Image w={150} mx="auto" src="/logo.png" />
-          </Link>
+      <Stack h="full" justifyContent="space-between">
+        <ChakraLink as={Link} href="/">
+          <Image w={150} mx="auto" src="/logo.png" alt="Logo do site" />
         </ChakraLink>
-        <For each={navLinksAdm}>
-          {({ link, icon: Icon, label }) => (
-            <ChakraLink asChild _hover={{ textDecoration: "none" }}>
+        <Stack mb="auto">
+          <For each={navLinksAdm}>
+            {({ link, icon: Icon, label }) => (
               <Link href={link} key={link}>
                 <Box
                   _hover={{ backgroundColor: "#9f4057" }}
@@ -38,10 +35,9 @@ const SideBar = () => {
                   </Flex>
                 </Box>
               </Link>
-            </ChakraLink>
-          )}
-        </For>
-        <Separator />
+            )}
+          </For>
+        </Stack>
         <LogoutButton />
       </Stack>
     </Box>
@@ -56,8 +52,8 @@ const navLinksAdm = [
   },
   {
     label: "Passeios",
-    link: "/painelAdm/passeios",
-    icon: () => <MdTour />,
+    link: "/painelAdm/tuor",
+    icon: () => <FaBusAlt />,
   },
 ];
 

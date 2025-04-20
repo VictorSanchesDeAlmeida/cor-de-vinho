@@ -7,7 +7,7 @@ import { ColorModeProvider } from "./color-mode";
 const system = createSystem(defaultConfig, {
   globalCss: {
     body: {
-      colorPalette: "pink",
+      colorPalette: "#851732",
     },
   },
   theme: {

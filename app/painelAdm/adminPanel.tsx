@@ -1,5 +1,3 @@
-"use client";
-
 import CardWellcome from "@/components/cardWellcome/cardWellcome";
 import { Box, Stack } from "@chakra-ui/react";
 

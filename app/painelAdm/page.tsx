@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { getUserProfile } from "./actions";
-import { AdminPanel } from "./admin-panel";
+import { AdminPanel } from "./adminPanel";
 
 export const metadata: Metadata = {
   title: "Painel de Controle",
