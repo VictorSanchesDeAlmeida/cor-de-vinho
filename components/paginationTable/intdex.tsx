@@ -1,21 +1,29 @@
+"use client";
+
 import { IconButton, Pagination } from "@chakra-ui/react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
-interface PaginationProps {
-  id: number;
-  name: string;
-  isPubliced: string;
-  comission: string;
-  link: string;
-  createdAt: string;
+interface PaginationTableProps {
+  total: number;
+  pageSize: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 }
 
-const PaginationTable = ({ items }: { items: PaginationProps[] }) => {
+const PaginationTable = ({
+  total,
+  pageSize,
+  currentPage,
+  onPageChange,
+}: PaginationTableProps) => {
+  const totalPages = Math.ceil(total / pageSize);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   return (
-    <Pagination.Root count={items.length * 5} pageSize={5} page={1}>
+    <Pagination.Root count={total} pageSize={10} page={1}>
       <Pagination.PrevTrigger>
         <IconButton>
-          <LuChevronLeft />
+          <LuChevronLeft onClick={() => onPageChange(currentPage - 1)} />
         </IconButton>
       </Pagination.PrevTrigger>
       <Pagination.Items
@@ -26,13 +34,17 @@ const PaginationTable = ({ items }: { items: PaginationProps[] }) => {
             color="black"
             _hover={{ bg: "#f1f4f8" }}
             mx={1}
+            onClick={() => {
+              onPageChange(page.value);
+              console.log(page.value);
+            }}
           >
             {page.value}
           </IconButton>
         )}
       />
       <Pagination.NextTrigger>
-        <IconButton>
+        <IconButton onClick={() => onPageChange(currentPage + 1)}>
           <LuChevronRight />
         </IconButton>
       </Pagination.NextTrigger>

@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
-import { FormCreateTuor } from "./formCreateTuor";
+import { FormCreateTour } from "./formCreateTour";
 
-export default function CreateTuorPage() {
+export default function CreateTourPage() {
   return (
     <Box
       w="full"
@@ -12,7 +12,7 @@ export default function CreateTuorPage() {
       shadow="lg"
       overflowY="scroll"
     >
-      <FormCreateTuor />
+      <FormCreateTour />
     </Box>
   );
 }

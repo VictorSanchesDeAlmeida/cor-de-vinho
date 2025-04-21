@@ -52,7 +52,7 @@ const navLinksAdm = [
   },
   {
     label: "Passeios",
-    link: "/painelAdm/tuor",
+    link: "/painelAdm/tour",
     icon: () => <FaBusAlt />,
   },
 ];

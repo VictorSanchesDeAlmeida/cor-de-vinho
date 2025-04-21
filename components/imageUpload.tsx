@@ -1,21 +1,40 @@
 "use client";
 
-import { Box, Input, Image, VStack, Text, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Input,
+  Image,
+  VStack,
+  Text,
+  Icon,
+  WrapItem,
+  Wrap,
+  HStack,
+  IconButton,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { FiUploadCloud } from "react-icons/fi";
+import { CloseButton } from "./ui/close-button";
+import {
+  FaRegArrowAltCircleLeft,
+  FaRegArrowAltCircleRight,
+} from "react-icons/fa";
 
 export const ImageUpload = ({
   register,
 }: {
   register: UseFormRegister<any>;
 }) => {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const newPreviews = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setPreviews(newPreviews);
     }
   };
 
@@ -23,9 +42,37 @@ export const ImageUpload = ({
     document.getElementById("imagem")?.click();
   };
 
+  const handleRemove = (indexToRemove: number) => {
+    setPreviews((prev) => prev.filter((_, index) => index !== indexToRemove));
+  };
+
+  const moveLeft = (index: number) => {
+    if (index === 0) return;
+    setPreviews((prev) => {
+      const newOrder = [...prev];
+      [newOrder[index - 1], newOrder[index]] = [
+        newOrder[index],
+        newOrder[index - 1],
+      ];
+      return newOrder;
+    });
+  };
+
+  const moveRight = (index: number) => {
+    if (index === previews.length - 1) return;
+    setPreviews((prev) => {
+      const newOrder = [...prev];
+      [newOrder[index + 1], newOrder[index]] = [
+        newOrder[index],
+        newOrder[index + 1],
+      ];
+      return newOrder;
+    });
+  };
+
   return (
     <>
-      <VStack align="start" gap={3}>
+      <VStack align="start" w="full" gap={3}>
         <Box
           onClick={handleClick}
           border="2px dashed gray"
@@ -33,7 +80,6 @@ export const ImageUpload = ({
           bg="gray.100"
           p={6}
           w="100%"
-          maxW="400px"
           textAlign="center"
           cursor="pointer"
           _hover={{ bg: "gray.200" }}
@@ -43,6 +89,7 @@ export const ImageUpload = ({
             type="file"
             accept="image/*"
             display="none"
+            multiple
             {...register("imagem", {
               onChange: handleFileChange,
             })}
@@ -54,19 +101,66 @@ export const ImageUpload = ({
           </Text>
         </Box>
 
-        {preview && (
-          <Box mt={2} w="100%">
-            <Image
-              src={preview}
-              alt="Preview"
-              objectFit="cover"
-              borderRadius="lg"
-              shadow="md"
-              w="100%"
-              maxW="400px"
-              maxH="400px"
-            />
-          </Box>
+        {previews && (
+          <Wrap mt={2} w="100%">
+            {previews.map((src, index) => (
+              <WrapItem key={index} position="relative" userSelect={"none"}>
+                <Image
+                  src={src}
+                  alt={`Preview ${index + 1}`}
+                  objectFit="cover"
+                  borderRadius="lg"
+                  shadow="md"
+                  boxSize="200px"
+                  draggable="false"
+                />
+                <CloseButton
+                  size="sm"
+                  position="absolute"
+                  top="1"
+                  right="1"
+                  color="white"
+                  bg="blackAlpha.700"
+                  borderRadius="full"
+                  _hover={{ bg: "blackAlpha.900" }}
+                  onClick={() => handleRemove(index)}
+                />
+                <HStack
+                  gap={1}
+                  position="absolute"
+                  bottom="1"
+                  left="1"
+                  bg="blackAlpha.500"
+                  borderRadius="md"
+                  px={1}
+                  py={0.5}
+                >
+                  <IconButton
+                    aria-label="Mover para esquerda"
+                    size="xs"
+                    onClick={() => moveLeft(index)}
+                    disabled={index === 0}
+                    variant="outline"
+                    border="none"
+                    _hover={{ bg: "red.400" }}
+                  >
+                    <FaRegArrowAltCircleLeft />
+                  </IconButton>
+                  <IconButton
+                    aria-label="Mover para direita"
+                    size="xs"
+                    onClick={() => moveRight(index)}
+                    disabled={index === previews.length - 1}
+                    variant="outline"
+                    border="none"
+                    _hover={{ bg: "red.400" }}
+                  >
+                    <FaRegArrowAltCircleRight />
+                  </IconButton>
+                </HStack>
+              </WrapItem>
+            ))}
+          </Wrap>
         )}
       </VStack>
     </>

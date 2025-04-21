@@ -1,16 +1,15 @@
 "use client";
 import { Field, Fieldset, Input } from "@chakra-ui/react";
-import { use } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-interface ITuorSearch {
+interface ITourSearch {
   search: string;
 }
 
-export function SearchTuor() {
-  const { register, handleSubmit } = useForm<ITuorSearch>();
+export function SearchTour() {
+  const { register, handleSubmit } = useForm<ITourSearch>();
 
-  const onSubmit: SubmitHandler<ITuorSearch> = (data) => {
+  const onSubmit: SubmitHandler<ITourSearch> = (data) => {
     console.log(data.search);
   };
 

@@ -10,15 +10,16 @@ import { SetHours } from "@/components/setHours";
 import { Box, Button, Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { saveTour } from "./action";
+import { saveTour } from "./actions";
 import { Toaster, toaster } from "@/components/ui/toaster";
+import { redirect } from "next/navigation";
 
-export interface FormDataTuor {
+export interface FormDataTour {
   name: string;
   description: string;
   comission: string;
   publish: boolean;
-  linkTuor: string;
+  linkTour: string;
   selectedDays: string[];
   hours: string[];
   highSeason: boolean;
@@ -29,17 +30,24 @@ export interface FormDataTuor {
   imagem: FileList;
 }
 
-export function FormCreateTuor() {
+export function FormCreateTour() {
   const [description, setDescription] = useState("");
   const [diasSelecionados, setDiasSelecionados] = useState<string[]>([]);
   const [horarios, setHorarios] = useState<string[]>([""]);
   const [faixas, setFaixas] = useState([{ descricao: "", preco: 0 }]);
-  const { register, control, handleSubmit } = useForm<FormDataTuor>();
+  const { register, control, handleSubmit } = useForm<FormDataTour>();
 
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data: FormDataTuor) => {
+  const onSubmit = async (data: FormDataTour) => {
     setLoading(true);
+
+    toaster.loading({
+      id: "loading",
+      title: "Criando passeio...",
+      description: "Aguarde enquanto criamos o passeio.",
+    });
+
     data.description = description;
     data.selectedDays = diasSelecionados;
     data.hours = horarios;
@@ -47,15 +55,23 @@ export function FormCreateTuor() {
 
     const response = await saveTour(data);
 
+    toaster.dismiss("loading");
+
     if (!response.error) {
       toaster.success({
         title: "Passeio criado com sucesso!",
+        description: "O passeio foi criado com sucesso.",
       });
+
       setLoading(false);
+
+      redirect("/painelAdm/Tour");
     } else {
       toaster.error({
         title: `Erro ao criar passeio: ${response.error.message}`,
+        description: "Tente novamente mais tarde.",
       });
+
       setLoading(false);
     }
   };
@@ -104,7 +120,7 @@ export function FormCreateTuor() {
         />
         <CheckboxSwitch name="publish" register={register} />
         <InputField
-          name="linkTuor"
+          name="linkTour"
           label="Link do Passeio"
           type="text"
           register={register}
