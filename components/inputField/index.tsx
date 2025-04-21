@@ -1,13 +1,21 @@
 import { Field, Fieldset, Input } from "@chakra-ui/react";
-import { register } from "module";
+import { UseFormRegister } from "react-hook-form";
 
 interface InputFieldProps {
+  name: string;
   label: string;
   placeholder?: string;
   type?: string;
+  register: UseFormRegister<any>;
 }
 
-const InputField = ({ label, placeholder, type }: InputFieldProps) => {
+const InputField = ({
+  name,
+  label,
+  placeholder,
+  type,
+  register,
+}: InputFieldProps) => {
   return (
     <Fieldset.Root mx="auto" size="lg">
       <Fieldset.Content>
@@ -21,6 +29,7 @@ const InputField = ({ label, placeholder, type }: InputFieldProps) => {
             rounded="lg"
             fontSize={18}
             color="black"
+            {...register(name)}
           />
         </Field.Root>
       </Fieldset.Content>
